@@ -1,0 +1,6 @@
+{
+    "database": "BugTracker",
+    "hostname": "bug-tracker.database.windows.net",
+    "username": "bugtrackeruser",
+    "password": "BugTracker2020"
+}
