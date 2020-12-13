@@ -1,0 +1,4 @@
+{
+   "appService.defaultWebAppToDeploy": "/subscriptions/54e2d194-4204-49b1-9a9f-67d5bfbe9e9d/resourceGroups/BugTracker/providers/Microsoft.Web/sites/bug-tracker-ase",
+   "appService.deploySubpath": "."
+}
