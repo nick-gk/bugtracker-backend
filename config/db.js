@@ -4,7 +4,7 @@ const config = require("config");
 const db = new Sequelize(config.get("database"), config.get("username"), config.get("password"), {
     host: config.get("hostname"),
     dialect: "mssql",
-    logging: false
+    logging: true
 });
 
 module.exports = db;

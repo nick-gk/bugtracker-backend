@@ -28,7 +28,7 @@ router.post(
       try {
          let user = await User.findOne({ where: {email: email}});
          if(user) {
-            return res.status(400).json({errors: [{message: "User already registered "}]});
+            return res.status(400).json({errors: [{message: "User already registered"}]});
          }
 
          user = {
@@ -48,7 +48,7 @@ router.post(
 
          const payload = {
             user: {
-               ud: user.id,
+               id: user.id,
                uuid: user.uuid,
                role: user.role
             }
@@ -79,7 +79,7 @@ router.post(
    async (req, res) => {
       const errors = validationResult(req);
       if(!errors.isEmpty()) {
-         res.status(401).json({ errors: errors.array() });
+         return res.status(401).json({ errors: errors.array() });
       }
 
       const { email, password } = req.body;
@@ -106,6 +106,7 @@ router.post(
          };
 
          jwt.sign(payload, config.get("secret"),
+         { expiresIn: 36000 },
          function(err, token) {
             if(err) throw err;
             res.json({token});
