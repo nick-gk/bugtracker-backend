@@ -11,7 +11,10 @@ router.post(
    '/register',
    [
       check('email', 'Campul email e obligatoriu').not().isEmpty(),
-      check('password', 'Campul password e obligatoriu').isLength({ min:6 })
+      check('password', 'Campul password e obligatoriu').isLength({ min:6 }),
+      check('nume', 'Campul nume este obligatoriu').not().isEmpty(),
+      check('prenume', 'Campul prenume este obligatoriu').not().isEmpty(),
+      check('role', 'Campul role este obligatoriu').not().isEmpty(),
    ],
    async (req, res) => {
       const errors = validationResult(req);
@@ -20,7 +23,7 @@ router.post(
          return res.status(400).json({errors: errors.array});
       }
 
-      const { email, password } = req.body;
+      const { email, password, nume, prenume, role } = req.body;
 
       try {
          let user = await User.findOne({ where: {email: email}});
@@ -30,7 +33,10 @@ router.post(
 
          user = {
             email: email,
-            password: password
+            password: password,
+            nume: nume,
+            prenume: prenume,
+            role: role
          }
 
          // Password Hashing
@@ -42,7 +48,9 @@ router.post(
 
          const payload = {
             user: {
-               uuid: user.uuid
+               ud: user.id,
+               uuid: user.uuid,
+               role: user.role
             }
          };
 
@@ -91,7 +99,9 @@ router.post(
 
          const payload = {
             user: {
+               id: user.id,
                uuid: user.uuid,
+               role: user.role
             }
          };
 
@@ -107,7 +117,7 @@ router.post(
    }
 );
 
-router.get('/users', auth, async (req, res) => {
+router.get('/users', auth.isTST, async (req, res) => {
    try {
       await User.findAll().then(els => {
          res.status(200).json(els);
