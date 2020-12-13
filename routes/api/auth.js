@@ -7,18 +7,6 @@ const { check, validationResult } = require('express-validator');
 const User = require("../../models/User");
 const auth = require('../../middleware/auth');
 
-
-router.get('/users', auth, async (req, res) => {
-   try {
-      await User.findAll().then(els => {
-         res.status(200).json(els);
-      }).catch(err => console.log(err));
-   } catch (error) {
-      console.log(error);
-      res.status(500).json(error);
-   }
-});
-
 router.post(
    '/register',
    [
@@ -71,14 +59,6 @@ router.post(
          console.log(err.message);
          res.status(500).send("Server Error");
       }
-
-      // try {
-      //    await User.create({email, password});
-      //    res.status(200).json();
-      // } catch(e) {
-      //    console.warn(e);
-      //    res.status(500).json({message: "Server Error"});
-      // }
    }
 )
 
@@ -125,6 +105,17 @@ router.post(
          res.status(500).send("Server Error");
       }
    }
-)
+);
+
+router.get('/users', auth, async (req, res) => {
+   try {
+      await User.findAll().then(els => {
+         res.status(200).json(els);
+      }).catch(err => console.log(err));
+   } catch (error) {
+      console.log(error);
+      res.status(500).json(error);
+   }
+});
 
 module.exports = router;

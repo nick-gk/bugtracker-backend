@@ -6,10 +6,10 @@ const app = express();
 const connectDB = async () => {
    try {
        await db.authenticate();
+       console.log('Connection has been established successfully.');
        db.sync({alter: true})
          .then(() => console.log("Tables Created"))
          .catch((error) => console.log(error));
-       console.log('Connection has been established successfully.');
      } catch (error) {
        console.error('Unable to connect to the database:', error);
      }
