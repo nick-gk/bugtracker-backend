@@ -6,4 +6,4 @@ const severity = {
    COSMETIC: 'COSMETIC'
 }
 
-export default severity;
+module.exports = severity;

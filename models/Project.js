@@ -1,6 +1,7 @@
 const { Sequelize, DataTypes, STRING } = require('sequelize');
 const db = require('../config/db');
 const User = require('./User');
+const Bug = require('./Bug');
 
 const Project = db.define("Project", 
 {
@@ -21,12 +22,12 @@ const Project = db.define("Project",
    user_id: {
       type: DataTypes.INTEGER,
       model: User,
-      key: id,
+      key: DataTypes.INTEGER,
    },
    bug_id: {
       type: DataTypes.INTEGER,
       model: Bug,
-      key: id,
+      key: DataTypes.INTEGER,
    }
 });
 

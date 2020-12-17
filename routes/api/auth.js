@@ -26,12 +26,12 @@ router.post(
       const { email, password, nume, prenume, role } = req.body;
 
       try {
-         let user = await User.findOne({ where: {email: email}});
-         if(user) {
+         let userExists = await User.findOne({ where: {email: email}});
+         if(userExists) {
             return res.status(400).json({errors: [{message: "User already registered"}]});
          }
 
-         user = {
+         userPayload = {
             email: email,
             password: password,
             nume: nume,
@@ -41,8 +41,19 @@ router.post(
 
          // Password Hashing
          const salt = await bcrypt.genSalt(10);
-         user.password = await bcrypt.hash(password, salt);
-         await User.create(user);
+         userPayload.password = await bcrypt.hash(password, salt);
+         await User.create(userPayload);
+
+         let user = null;
+
+         try {
+            await User.findOne({ where: { email: email } })
+               .then(response => user = response)
+               .catch(err => console.log(err));
+         } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+         }
 
          // Payload with the info for user identification
 

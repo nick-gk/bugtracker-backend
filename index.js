@@ -8,7 +8,7 @@ const connectDB = async () => {
        await db.authenticate();
        console.log('Connection has been established successfully.');
        // Daca facem modificari la baza de date, folosim force: true. Atlfel alter: true
-       db.sync({force: true})
+       db.sync({ alter: true })
          .then(() => console.log("Tables Created"))
          .catch((error) => console.log(error));
      } catch (error) {

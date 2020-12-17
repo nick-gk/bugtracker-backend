@@ -5,4 +5,4 @@ const priority = {
    LOW: "LOW"
 }
 
-export default priority;
+module.exports = priority;

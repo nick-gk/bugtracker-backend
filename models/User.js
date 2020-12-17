@@ -26,7 +26,8 @@ const User = db.define('Users', {
       allowNull: false,
    },
    role: {
-      type: DataTypes.ENUM("TST", "MP"),
+      type: DataTypes.STRING,
+      // values: ['TST', 'MP'],
       allowNull: false
    }
 }, 
