@@ -21,7 +21,7 @@ connectDB();
 app.use(express.json({extended: false}));
 
 app.use("/api/auth", require('./routes/api/auth'));
-
+app.use("/api/project", require("./routes/api/project"));
 const PORT = process.env.PORT || 5000;
 
 app.get('/', (req, res) => res.send("BugTracker Ale is online"));
