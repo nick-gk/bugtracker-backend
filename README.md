@@ -1,13 +1,13 @@
 BugTracker
 
-Membri echipa = {
-   Nicolae Gîncota,
-   Alexandra Ioana Gherghel,
-   Rossane Alexandra Gradinaru
-}
+Membri echipa = { <br>
+   Nicolae Gîncota,<br>
+   Alexandra Ioana Gherghel,<br>
+   Rossane Alexandra Gradinaru<br>
+}<br>
 
-<h3>Instructiuni </h3>
-Pentru instalare: <b>npm i install</b>
-Pentru rulare: <b>npm run server </b>
+<h3>Instructiuni </h3><br>
+Pentru instalare: <b>npm i install</b> <br>
+Pentru rulare: <b>npm run server </b> <br>
 
 Url Cloud: <b> https://bug-tracker-ase.azurewebsites.net/
