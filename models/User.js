@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../config/db');
+const { roles } = require('../shared/constants');
 
 const User = db.define('Users', {
    uuid: {
@@ -27,8 +28,9 @@ const User = db.define('Users', {
    },
    role: {
       type: DataTypes.STRING,
-      // values: ['TST', 'MP'],
-      allowNull: false
+      validate: {
+         isIn: [[roles.MP, roles.TST]],
+      }
    }
 }, 
 {

@@ -129,7 +129,7 @@ router.post(
    }
 );
 
-router.get('/users', auth.isTST, async (req, res) => {
+router.get('/users', auth.isMP, async (req, res) => {
    try {
       await User.findAll().then(els => {
          res.status(200).json(els);
