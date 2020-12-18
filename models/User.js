@@ -1,6 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../config/db');
 const { roles } = require('../shared/constants');
+const Project = require("./Project");
 
 const User = db.define('Users', {
    uuid: {
@@ -31,7 +32,7 @@ const User = db.define('Users', {
       validate: {
          isIn: [[roles.MP, roles.TST]],
       }
-   }
+   },
 }, 
 {
    getterMethods: {
@@ -39,6 +40,18 @@ const User = db.define('Users', {
          return this.nume + ' ' + this.prenume
       }
    }
-})
+});
+
+User.belongsToMany(Project, {
+   as: "engineers",
+   through: 'ProjectTeam',
+   foreignKey: "user_id",
+});
+
+Project.belongsToMany(User, {
+   as: "project",
+   through: 'ProjectTeam',
+   foreignKey: "project_id",
+});
 
 module.exports = User;

@@ -37,4 +37,8 @@ const Bug = db.define('Bug', {
    }
 });
 
+Project.hasMany(Bug);
+
+Bug.belongsTo(Project);
+
 module.exports = Bug;
