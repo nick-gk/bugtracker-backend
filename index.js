@@ -8,7 +8,7 @@ const connectDB = async () => {
        await db.authenticate();
        console.log('Connection has been established successfully.');
        // Daca facem modificari la baza de date, folosim force: true. Atlfel alter: true
-       db.sync({force: true})
+       db.sync({ alter: true })
          .then(() => console.log("Tables Created"))
          .catch((error) => console.log(error));
      } catch (error) {
@@ -21,7 +21,7 @@ connectDB();
 app.use(express.json({extended: false}));
 
 app.use("/api/auth", require('./routes/api/auth'));
-
+app.use("/api/project", require("./routes/api/project"));
 const PORT = process.env.PORT || 5000;
 
 app.get('/', (req, res) => res.send("BugTracker Ale is online"));

@@ -4,7 +4,7 @@
   "description": "The backend code for the bugTracker project",
   "main": "index.js",
   "scripts": {
-    "start": "node server",
+    "start": "node server index.js",
     "server": "nodemon server"
   },
   "author": "Nicolae",

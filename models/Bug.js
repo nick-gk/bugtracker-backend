@@ -1,17 +1,19 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../config/db');
-const status = require('../constants/status');
-const severity = require('../constants/severity');
-const priority = requrie('../constants/priority');
+const { status, priority, severity } = require('../shared/constants');
 
 const Bug = db.define('Bug', {
    severity: {
-      type: DataTypes.ENUM(severity.CRITICAL, severity.MAJOR, severity.MODERATE, severity.MINOR, severity.COSMETIC),
-      allowNull: false
+      type: DataTypes.STRING,
+      validate: {
+         isIn: [[severity.COSMETIC, severity.CRITICAL, severity.MAJOR, severity.MINOR, severity.MODERATE]]
+      }
    },
    priority: {
-      type: DataTypes.ENUM(priority.HIGHEST, severity.HIGH, severity.MEDIUM, severity.LoW),
-      allowNull: false
+      type: DataTypes.STRING,
+      validate: {
+         isIn: [[priority.HIGHEST, priority.HIGH, priority.MEDIUM, priority.LOW]]
+      }
    },
    foundOnCommit: {
       type: DataTypes.STRING,
@@ -21,9 +23,10 @@ const Bug = db.define('Bug', {
       },
    },
    status: {
-      type: DataTypes.ENUM(status.SOLVED, status.PENDING, status.UNSOLVED),
-      defaultValue: status.UNSOLVED,
-      allowNull: false,
+      type: DataTypes.STRING,
+      validate: {
+         isIn: [[status.PENDING, status.SOLVED, status.UNSOLVED]]
+      }
    },
    solvedOnCommit: {
       type: DataTypes.STRING,
