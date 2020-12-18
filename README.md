@@ -1,9 +1,9 @@
 BugTracker
 
-Membri echipa = { <br>
-   Nicolae Gîncota,<br>
-   Alexandra Ioana Gherghel,<br>
-   Rossane Alexandra Gradinaru<br>
+Membri echipa = {
+   Nicolae Gîncota,
+   Alexandra Ioana Gherghel,
+   Rossane Alexandra Gradinaru
 }<br>
 
 <h3>Instructiuni </h3><br>
