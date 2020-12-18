@@ -4,7 +4,7 @@ Membri echipa = {
    Nicolae Gîncota,
    Alexandra Ioana Gherghel,
    Rossane Alexandra Gradinaru
-}<br>
+}
 
 <h3>Instructiuni </h3><br>
 Pentru instalare: <b>npm i install</b> <br>
