@@ -54,7 +54,7 @@ const AddBug = ({ setAlert, role, match, history }) => {
          <div className="row justify-content-center">
             <div className="row flex-column login-card p-3">
                <div className="login-head mb-3 text-left">
-                  <h4>Adauga un proiect</h4>
+                  <h4>Adauga un Bug</h4>
                </div>
                <form onSubmit = { (e) => onSubmit(e) }>
                   <div className="d-flex flex-column mb-2">
