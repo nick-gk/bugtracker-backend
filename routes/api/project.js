@@ -7,6 +7,8 @@ const ProjectsUsers = require("../../models/ProjectsUsers");
 const { sequelize } = require("../../models/Project");
 const User = require("../../models/User");
 const { roles } = require("../../shared/constants");
+const { route } = require("./auth");
+const Bug = require("../../models/Bug");
 
 router.post('/teams', auth.isLoggedIn, async (req, res)=>{
     const payload = { user_id, project_id } = req.body;
@@ -119,5 +121,34 @@ router.get('/:project_id', auth.isLoggedIn, async (req,res) => {
     const { project_id } = req.params;
     const pr = await Project.findByPk(project_id);
     return res.status(200).json(pr);
+});
+
+router.post('/add-bug', auth.isTST, async(req, res) => {
+    const payload = { severity, title, project_id, priority, foundOnCommit, status } = req.body;
+    try {
+        await Bug.create(payload);
+        res.status(200).json({ msg: "Succes" } );
+    } catch (error) {
+        return res.status(500).json(error);
+    }
+});
+
+router.get('/get-bugs/:project_id', auth.isLoggedIn, async(req, res) => {
+    try {
+        await Bug.findAll({
+            where: {
+                project_id: req.params.project_id
+            }
+        })
+            .then(bugs => {
+               return res.status(200).json(bugs);
+            })
+            .catch(err => console.log(err));
+     } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+     }
 })
+
+
 module.exports = router;

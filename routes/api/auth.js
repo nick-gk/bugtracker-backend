@@ -65,8 +65,6 @@ router.post(
             return res.status(500).json(error);
          }
 
-         // Payload with the info for user identification
-
          const payload = {
             user: {
                id: user.id,

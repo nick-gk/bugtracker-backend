@@ -10,8 +10,6 @@ const MainPage = ({ getProjects, auth, project: {projects} }) => {
       getProjects();
    }, [getProjects]);
 
-   console.log(projects);
-
    return (
       <div className="container page pb-5">
          <div className="d-flex flex-column">
@@ -24,7 +22,7 @@ const MainPage = ({ getProjects, auth, project: {projects} }) => {
                   <li key={project.id} className="list-group-item">
                      <span className="mr-4">{project.id}</span>
                      <span>{project.title} </span>
-                     <span className="ml-5">Ultimul update: <Moment format="DD/MM/YYYY">{project.updatedAt}</Moment></span>
+                     <span className="ml-5">{project.description.slice(0, 100)}</span>
                   </li>
                </Link>
             ))}

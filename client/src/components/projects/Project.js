@@ -3,16 +3,18 @@ import PropTypes from 'prop-types'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { setAlert } from '../../actions/alert'
+import { Link } from 'react-router-dom'
 
 const Project = ({ match, auth, setAlert }) => {
    const [project, setProject] = useState({});
    const [mps, setMps] = useState([]);
    const [tsts, setTsts] = useState([]);
+   const [bugs, setBugs] = useState([]);
 
    const config = {
       headers: {
          'Content-Type': 'application/json'
-      }
+      },
    }
 
    useEffect(() => {
@@ -21,7 +23,7 @@ const Project = ({ match, auth, setAlert }) => {
 
 
    const addBug = () => {
-      console.log("add BUg");
+      console.log("add Bug");
    }
 
    const becomeMP = async () => {
@@ -86,6 +88,15 @@ const Project = ({ match, auth, setAlert }) => {
       } catch (error) {
          console.dir(error);
       }
+
+      try {
+         await axios.get(`/api/project/get-bugs/${match.params.id}/`, config).then(res => {
+            console.log(res.data);
+            setBugs([...res.data]);
+         });
+      } catch (error) {
+         console.dir(error);
+      }
    }
 
    return (
@@ -123,18 +134,20 @@ const Project = ({ match, auth, setAlert }) => {
                   <div className="mt-3">
                      <h4>Lista Buguri</h4>
                      <ul className="list-group" style={{width: 350 + 'px'}}>
-                        <li className="list-group-item">Titlu bug</li>
-                        <li className="list-group-item">A second item</li>
-                        <li className="list-group-item">A third item</li>
-                        <li className="list-group-item">A fourth item</li>
-                        <li className="list-group-item">And a fifth one</li>
+                     {bugs.map(bug => (
+                           <li key={bug.id} className="list-group-item">{bug.title}</li>
+                        ))}
                      </ul>
                   </div>
                </div>
                <div className="mt-4 align-self-center">
-                  {auth.user?.role === 'TST' && <button className="btn btn-primary mr-2" onClick={ () => addBug()} type="submit">Adauga BUG</button>}
-                  {auth.user?.role === 'TST' && <button className="btn btn-primary mr-2" onClick={ () => becomeTst() } type="submit">Become a tester for this project</button>}
-                  {auth.user?.role === 'MP' && <button className="btn btn-primary" onClick={ () => becomeMP()} type="submit">Become a MP for this project</button>}
+                  { (auth.user?.role === 'TST' && tsts.find(tester => tester.id === auth.user.id)) && 
+                     <Link className="btn btn-primary mr-2" to={{ pathname: `${match.params.id}/add-bug`}}>Adauga BUG</Link>
+                  }
+                  {  auth.user?.role === 'TST' && <button className="btn btn-primary mr-2" onClick={ () => becomeTst() }               type="submit">Become a tester for this project</button>
+                  }  
+                  {  auth.user?.role === 'MP' && <button className="btn btn-primary" onClick={ () => becomeMP()} type="submit">Become a MP for this project</button>
+                  }
                </div>
             </div>
          </div>

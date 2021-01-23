@@ -9,6 +9,7 @@ import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
 import PrivateRouteMP from './components/routing/PrivateRouteMP';
+import PrivateRouteTST from './components/routing/PrivateRouteTst';
 import AddProject from './components/projects/AddProject';
 import Project from './components/projects/Project';
 import './App.css';
@@ -16,6 +17,7 @@ import './App.css';
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
+import AddBug from './components/projects/AddBug';
 
 if(localStorage.token) {
   setAuthToken(localStorage.token)
@@ -37,7 +39,8 @@ const App = () => {
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <PrivateRouteMP exact path="/add-project" component={AddProject} />
-            <PrivateRoute exact path="/projects/:id" component={Project} />  
+            <PrivateRoute exact path="/projects/:id" component={Project} /> 
+            <PrivateRouteTST exact path="/projects/:id/add-bug" component={AddBug} /> 
           </Switch>
         </section>
       </Fragment>

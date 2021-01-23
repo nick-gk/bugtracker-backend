@@ -9,6 +9,14 @@ const Bug = db.define('Bug', {
          isIn: [[severity.COSMETIC, severity.CRITICAL, severity.MAJOR, severity.MINOR, severity.MODERATE]]
       }
    },
+   title: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+   },
+   project_id: {
+      type: Sequelize.INTEGER,
+      allowNull: false
+   },
    priority: {
       type: DataTypes.STRING,
       validate: {
@@ -36,9 +44,5 @@ const Bug = db.define('Bug', {
       },
    }
 });
-
-Project.hasMany(Bug);
-
-Bug.belongsTo(Project);
 
 module.exports = Bug;
