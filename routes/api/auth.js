@@ -7,11 +7,21 @@ const { check, validationResult } = require('express-validator');
 const User = require("../../models/User");
 const auth = require('../../middleware/auth');
 
+router.get('/', auth.isLoggedIn, async(req, res) => {
+   try {
+      const user = await User.findOne({ where: {uuid: req.user.uuid} });
+      user.password = null;
+      return res.json(user);
+   } catch (error) {
+      res.status(400).json(error);
+   }
+})
+
 router.post(
    '/register',
    [
       check('email', 'Campul email e obligatoriu').not().isEmpty(),
-      check('password', 'Campul password e obligatoriu').isLength({ min:6 }),
+      check('password', 'Campul password e obligatoriu sau nu are cel putin 6 caractere').isLength({ min:6 }),
       check('nume', 'Campul nume este obligatoriu').not().isEmpty(),
       check('prenume', 'Campul prenume este obligatoriu').not().isEmpty(),
       check('role', 'Campul role este obligatoriu').not().isEmpty(),
@@ -20,7 +30,7 @@ router.post(
       const errors = validationResult(req);
 
       if(!errors.isEmpty()) {
-         return res.status(400).json({errors: errors.array});
+         return res.status(400).json({errors: errors.errors});
       }
 
       const { email, password, nume, prenume, role } = req.body;
@@ -28,7 +38,7 @@ router.post(
       try {
          let userExists = await User.findOne({ where: {email: email}});
          if(userExists) {
-            return res.status(400).json({errors: [{message: "User already registered"}]});
+            return res.status(400).json({errors: [{msg: "Userul este deja inregistrat"}]});
          }
 
          userPayload = {
@@ -102,26 +112,26 @@ router.post(
             return res.status(401).json({ errors: [{ msg: "Userul nu este inregistrat" }]});
          }
 
-         isMatched = bcrypt.compare(password, user.password);
-
-         if(!isMatched) {
-            res.status(401).json({errors: [{msg: "Parola este gresita" }]});
-         }
-
-         const payload = {
-            user: {
-               id: user.id,
-               uuid: user.uuid,
-               role: user.role
+         bcrypt.compare(password, user.password).then((result) => {
+            if(result) {
+               const payload = {
+                  user: {
+                     id: user.id,
+                     uuid: user.uuid,
+                     role: user.role
+                  }
+               };
+      
+               jwt.sign(payload, config.get("secret"),
+               { expiresIn: 36000 },
+               function(err, token) {
+                  if(err) throw err;
+                  res.json({token});
+               })
+            } else {
+               res.status(400).send({ errors: [{ msg: "Parola este Gresita" }] });
             }
-         };
-
-         jwt.sign(payload, config.get("secret"),
-         { expiresIn: 36000 },
-         function(err, token) {
-            if(err) throw err;
-            res.json({token});
-         })
+         });        
       } catch (error) {
          console.log("err.message");
          res.status(500).send("Server Error");
